@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath "com.android.tools.build:gradle:$localGradlePluginVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,16 +16,34 @@ allprojects {
     }
 }
 
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// Define versions in a single place
+//时间：2017.11.23；每次修改版本号都要添加修改时间
 ext{
+    // Sdk and tools
+    //localBuildToolsVersion是gradle.properties中的数据
     compileSdkVersion = 26
-    buildToolsVersion = "26.0.1"
+    buildToolsVersion = localBuildToolsVersion
     minSdkVersion = 15
     targetSdkVersion = 26
     versionCode = 1
     versionName = "1.0"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    // App dependencies version
+    supportLibraryVersion = "25.3.1"
+    constraintVersion = "1.0.2"
+    rxVersion = "1.1.0"
+    retrofitVersion = "2.1.0"
+    okhttpVersion = "3.3.0"
+    frescoVersion = "0.14.1"
+    easypermissionsVersion = "0.1.9"
+    nineoldVersion = "2.4.0"
+    multidexVersion = "1.0.1"
+    routerVersion = "1.2.4"
+    routercompilerVersion = "1.1.4"
+    eventbusVersion = "3.0.0"
 }
