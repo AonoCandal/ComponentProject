@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../build_flavors.gradle'
 
 android {
 
@@ -33,7 +34,6 @@ android {
     }
     buildTypes {
         release {
-//            manifestPlaceholders = [app_icon: "@drawable/icon"]
             //是否zip对齐
             zipAlignEnabled true
             // 缩减resource文件
@@ -47,33 +47,20 @@ android {
         debug {
             //给applicationId添加后缀“.debug”
             applicationIdSuffix ".debug"
-//            manifestPlaceholders = [app_icon: "@drawable/launch_beta"]
             zipAlignEnabled false
             shrinkResources false
             minifyEnabled false
             debuggable true
         }
     }
-    productFlavors{
-        product{
-            buildConfigField "String", "API_URL", "\"http://staging.example.com/api\""
-        }
-
-        staging{
-            buildConfigField "String", "API_URL", "\"http://staging.example.com/api\""
-        }
-    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
     if (isModule.toBoolean()) {
         compile project(':lib_common')
     } else {
-        compile project(':module_main')
+        debugCompile project(path: ':module_main', configuration: 'stagingRelease')
+        releaseCompile project(path: ':module_main', configuration: 'productRelease')
     }
 }
